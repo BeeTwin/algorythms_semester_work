@@ -78,7 +78,7 @@ namespace algorythms_semester_work
         private static Dictionary<Node, List<WeightedEdge>> GetSortedEdges(Graph graph)
             => graph.Nodes.ToDictionary(
                     x => x,
-                    x => Sorter.QuickSort(x.Edges.ConvertAll(x => x as WeightedEdge)));
+                    x => Sorter.QuickSort(x.Edges.Cast<WeightedEdge>()));
 
         private static WeightedEdge Min(WeightedEdge minEdge, WeightedEdge newMinEdge)
         {

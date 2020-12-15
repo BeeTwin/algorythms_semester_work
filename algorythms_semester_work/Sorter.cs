@@ -6,10 +6,11 @@ namespace algorythms_semester_work
 {
     public static class Sorter
     {
-        public static List<T> QuickSort<T>(List<T> array) where T : IComparable
+        public static List<T> QuickSort<T>(IEnumerable<T> collection) where T : IComparable
         {
-            if (!array.Any())
-                return array;
+            if (!collection.Any())
+                return collection.ToList();
+            var array = collection.ToList();
             var stack = new Stack<int>();
             T pivot;
             var pivotIndex = 0;
