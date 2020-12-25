@@ -6,8 +6,8 @@ namespace algorythms_semester_work
 {
     public class Graph
     {
-        public readonly HashSet<Node> Nodes = new();
-        public readonly HashSet<Edge> Edges = new();
+        public HashSet<Node> Nodes = new();
+        public HashSet<Edge> Edges = new();
 
         #region Add Node
         public void Add(params Node[] nodes)
@@ -66,12 +66,20 @@ namespace algorythms_semester_work
                 try { CheckNode(edge.From); graph.CheckNode(edge.To); } 
                 catch { CheckNode(edge.To); graph.CheckNode(edge.From); }
 
-            graph.AddAll(Nodes);
             AddAll(graph.Nodes);
 
-            Edges.UnionWith(graph.Edges);
+            graph.Edges.ForEach(edge => Edges.Add(edge));
             ConnectAll(edges);
-            graph.Edges.UnionWith(Edges);
+
+            graph.Copy(this);
+        }
+        #endregion
+
+        #region Copy Graph
+        public void Copy(Graph graph)
+        {
+            Nodes = graph.Nodes;
+            Edges = graph.Edges;
         }
         #endregion
 
@@ -95,8 +103,14 @@ namespace algorythms_semester_work
         #region Reset
         public void ResetEdges()
         {
+            Edge edge;
             while (Edges.Any())
-                Disconnect(Edges.First());
+            {
+                edge = Edges.First();
+                edge.From.Edges.Remove(edge);
+                edge.To.Edges.Remove(edge);
+                Edges.Remove(edge);
+            }
         }
 
         public void Reset()

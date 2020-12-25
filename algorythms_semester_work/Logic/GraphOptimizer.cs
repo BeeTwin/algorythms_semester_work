@@ -27,11 +27,6 @@ namespace algorythms_semester_work
             }
         }
 
-        public static void KruskalsAlogrythm(Graph graph)
-        {
-
-        }
-
         public static void BoruvkasAlgorythm(Graph graph)
         {
             if (!IsGraphValid(graph))
@@ -68,11 +63,17 @@ namespace algorythms_semester_work
                     .Connect(secondComponent, minEdge);
                 components.Remove(secondComponent);
             }
+            graph.Copy(components.FirstOrDefault());
         }
 
         public static void ReverseDeleteAlgorythm(Graph graph)
         {
+            throw new NotImplementedException();
+        }
 
+        public static void KruskalsAlogrythm(Graph graph)
+        {
+            throw new NotImplementedException();
         }
 
         private static Dictionary<Node, List<WeightedEdge>> GetSortedEdges(Graph graph)
