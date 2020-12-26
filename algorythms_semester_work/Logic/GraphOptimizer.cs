@@ -8,51 +8,53 @@ namespace algorythms_semester_work
 {
     public static class GraphOptimizer
     {
-        public static void PrimsAlgorythm(Graph graph)
-        {
+        //Операции, выполняемые за константное время, не указаны.
+
+        public static void PrimsAlgorythm(Graph graph) //O(|V| * |E|log|E| + |E| + |V| * |V| * |E|) = 
+        {                                              //= O(|V| * |E| * (log|E| + |V|))
             if (!IsGraphValid(graph))
                 return;
 
-            var sortedEdges = GetSortedEdges(graph);
+            var sortedEdges = GetSortedEdges(graph); //O(|V| * |E|log|E|)
             var count = graph.Nodes.Count - 1;
-            graph.Reset();
+            graph.Reset(); //O(|E|)
             graph.Add(sortedEdges.Keys.First());
 
             WeightedEdge minEdge;
-            for (var i = 0; i < count; i++)
-            {
-                minEdge = FindMinEdge(graph, sortedEdges);
+            for (var i = 0; i < count; i++) //O(|V|)
+            { 
+                minEdge = FindMinEdge(graph, sortedEdges); //O(|V| * |E|)
                 graph.Add(graph.Nodes.Contains(minEdge.From) ? minEdge.To : minEdge.From);
                 graph.Connect(minEdge);
             }
         }
 
-        public static void BoruvkasAlgorythm(Graph graph)
-        {
+        public static void BoruvkasAlgorythm(Graph graph) //O(|V| * |E|log|E| + |V| + |E| + |V| * |V| * |V| * |E|) = 
+        {                                                 //= O(|V| * |E| * (log|E| + |V| * |V|)
             if (!IsGraphValid(graph))
                 return;
 
-            var sortedEdges = GetSortedEdges(graph);
+            var sortedEdges = GetSortedEdges(graph); //O(|V| * |E|log|E|)
             var components = new List<Graph>() { graph };
-            components.AddRange(graph.Nodes.Skip(1)
+            components.AddRange(graph.Nodes.Skip(1) //O(|V|)
                 .Select(node =>
             {
                 var component = new Graph();
                 component.Add(node);
                 return component;
             }));
-            graph.Reset();
+            graph.Reset(); //O(|E|)
             graph.Add(sortedEdges.Keys.First());
 
             Graph secondComponent;
             WeightedEdge minEdge;
             WeightedEdge newMinEdge;
-            while (components.Count != 1)
+            while (components.Count != 1) // O(|V|)
             {
                 minEdge = null;
-                foreach (var component in components)
+                foreach (var component in components) //O(|V|)
                 {
-                    newMinEdge = FindMinEdge(component, sortedEdges);
+                    newMinEdge = FindMinEdge(component, sortedEdges); //O(|V| * |E|)
                     minEdge = Min(minEdge, newMinEdge);
                 }
 
@@ -76,7 +78,7 @@ namespace algorythms_semester_work
             throw new NotImplementedException();
         }
 
-        private static Dictionary<Node, List<WeightedEdge>> GetSortedEdges(Graph graph)
+        private static Dictionary<Node, List<WeightedEdge>> GetSortedEdges(Graph graph) //O(|V| * |E|log|E|)
             => graph.Nodes.ToDictionary(
                     x => x,
                     x => Sorter.QuickSort(x.Edges.Cast<WeightedEdge>()));
@@ -89,7 +91,7 @@ namespace algorythms_semester_work
             return minEdge;
         }
 
-        private static WeightedEdge FindMinEdge(Graph component, Dictionary<Node, List<WeightedEdge>> sortedEdges)
+        private static WeightedEdge FindMinEdge(Graph component, Dictionary<Node, List<WeightedEdge>> sortedEdges) //O(|V| * |E|)
         {
             WeightedEdge minEdge = null;
             foreach (var node in component.Nodes)

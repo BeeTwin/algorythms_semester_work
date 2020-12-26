@@ -19,6 +19,8 @@ namespace algorythms_semester_work
 
     public enum Message
     {
-        RndConnectedSuccess, ConnectedSuccess, PrimsSuccess, BoruvkasSuccess, IncorrectInput, IncorrectArgs, Welcome, CountChanged, RandomChanged, NextPrev
+        RndConnectSuccess, ConnectSuccess, PrimsSuccess, BoruvkasSuccess, 
+        IncorrectInput, IncorrectArgs, Welcome, CountChanged, RandomChanged, 
+        NextPrev, ConnectFailure
     }
 }

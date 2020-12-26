@@ -72,7 +72,8 @@ namespace algorythms_semester_work
             SetCursorPosition(3, i++);
             foreach(var edge in edges)
                Out(edge.ToString(), 3, i++);
-            Out(". . .", 3, i);
+            if (edges.Length == 1000)
+                Out(". . .", 3, i);
             SetCursorPosition(0, 0);
         }
 
@@ -86,7 +87,7 @@ namespace algorythms_semester_work
         {
             _messages[Message.BoruvkasSuccess] = (message)
                 => $"Graph optimized by Boruvka`s algorythm.";
-            _messages[Message.ConnectedSuccess] = (message)
+            _messages[Message.ConnectSuccess] = (message)
                 => $"Nodes { message } connected successfully.";
             _messages[Message.IncorrectArgs] = (message)
                 => $"Incorrect arguments. Try in form { message } [args].";
@@ -94,7 +95,7 @@ namespace algorythms_semester_work
                 => $"Incorrect input. Try again.";
             _messages[Message.PrimsSuccess] = (message)
                 => $"Graph optimized by Prim`s algorythm.";
-            _messages[Message.RndConnectedSuccess] = (message)
+            _messages[Message.RndConnectSuccess] = (message)
                 => $"Graph connected by random weights.";
             _messages[Message.Welcome] = (message)
                 => $"Welcome to console graph optimizer.";
@@ -104,6 +105,8 @@ namespace algorythms_semester_work
                 => $"Weights is now { message }.";
             _messages[Message.NextPrev] = (message)
                 => $"Edges { message }.";
+            _messages[Message.ConnectFailure] = (message)
+                => $"Failed to connect nodes { message }.";
         }
     }
 }

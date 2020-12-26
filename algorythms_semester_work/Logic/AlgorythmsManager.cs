@@ -57,7 +57,7 @@ namespace algorythms_semester_work
                                 continue;
                             }
                         }
-                    if (command == Command.ChangeRandom)
+                    if (command == Command.Random)
                         if (!(args.Length == 1 && double.TryParse(args[0], out first)))
                         {
                             first = Math.Round(first, MidpointRounding.ToZero);
@@ -68,7 +68,7 @@ namespace algorythms_semester_work
                             }
                         }
                         else;
-                    else if (command == Command.ChangeCount || command == Command.Page)
+                    else if (command == Command.Count || command == Command.Page)
                         if (!(args.Length == 1 && double.TryParse(args[0], out first)))
                         {
                             _consoleViewer.Out(Message.IncorrectArgs, command);
@@ -92,15 +92,19 @@ namespace algorythms_semester_work
             _commands[Command.ConnectRandom] = (minWeight, maxWeight, _) =>
             {
                 _pipeline.ConnectAllNodesWithRandomWeights(minWeight, maxWeight);
-                _consoleViewer.Out(Message.RndConnectedSuccess, null);
+                _consoleViewer.Out(Message.RndConnectSuccess, null);
                 Show();
             };
 
             _commands[Command.Connect] = (first, second, weight) =>
             {
-                _pipeline.ConnectNodes(weight, Pipeline.GetName((int)first), Pipeline.GetName((int)second));
-                _consoleViewer.Out(Message.ConnectedSuccess, $"{ first } and { second } with weight { weight }");
-                Show();
+                if (_pipeline.ConnectNodes(weight, Pipeline.GetName((int)first), Pipeline.GetName((int)second)))
+                {
+                    _consoleViewer.Out(Message.ConnectSuccess, $"{ first } and { second } with weight { weight }");
+                    Show();
+                }
+                else
+                    _consoleViewer.Out(Message.ConnectFailure, $"{first} and {second}");
             };
 
             _commands[Command.Prims] = (_, _, _) =>
@@ -125,14 +129,14 @@ namespace algorythms_semester_work
                 Show();
             };
 
-            _commands[Command.ChangeCount] = (count, _, _) =>
+            _commands[Command.Count] = (count, _, _) =>
             {
                 _pipeline = new Pipeline((int)count);
                 _consoleViewer.Out(Message.CountChanged, count);
                 Show();
             };
 
-            _commands[Command.ChangeRandom] = (type, _, _) =>
+            _commands[Command.Random] = (type, _, _) =>
             {
                 _consoleViewer.Out(Message.RandomChanged, type == 0 ? "doubles" : "ints");
                 _pipeline.RandomType = (RandomType)type;
@@ -180,7 +184,7 @@ namespace algorythms_semester_work
             //algoruthms commands:
                 ConnectRandom, Connect, Prims, Boruvkas,
             //console commands:
-                Clear, ChangeCount, ChangeRandom, Next, Prev, Page
+                Clear, Count, Random, Next, Prev, Page
         }
     }
 }

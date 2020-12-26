@@ -27,13 +27,17 @@ namespace algorythms_semester_work
                     ConnectNodes(Random(minWeight, maxWeight), firstNode, secondNode);
         }
 
-        public void ConnectNodes(double weight, string first, string second)
+        public bool ConnectNodes(double weight, string first, string second)
             => ConnectNodes(weight, FindNode(first), FindNode(second));
 
-        private void ConnectNodes(double weight, Node first, Node second)
+        private bool ConnectNodes(double weight, Node first, Node second)
         {
             if (first is not null && second is not null && first != second && !first.IsIncident(second))
+            {
                 Graph.Connect(new WeightedEdge(weight, first, second));
+                return true;
+            }
+            return false;
         }
 
         public void DisconnectNodes(string first, string second)
@@ -59,7 +63,7 @@ namespace algorythms_semester_work
             => i < 0 ? null : i == 0 ? "Water tower" : $"House #{ i }";
 
         public override string ToString()
-            => $"Water tower and [{ _count - 1 }] houses with [{ Graph.Edges.Count }] connections.";
+            => $"Water tower and [{ _count - 1 }] houses with [{ Graph.Edges.Count }] connections. Total length - [{ Graph.Edges.Sum(x => (x as WeightedEdge).Weight) }].";
     }
 
     public enum RandomType
